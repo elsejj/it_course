@@ -1,5 +1,3 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
 CREATE TABLE questions (
         id INTEGER PRIMARY KEY,
         qid INTEGER,
@@ -433,4 +431,3 @@ CREATE TABLE _hub_migrations (
   applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 DELETE FROM sqlite_sequence;
-COMMIT;
