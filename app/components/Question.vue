@@ -19,15 +19,15 @@ const parsedOptions = computed(() => {
   // If TF (True/False), use fixed options
   if (props.question.kind === 'TF') {
     return [
-      { label: '√ 对', value: `T`},
-      { label: '× 错', value: `F` }
+      { label: '对', value: `T`},
+      { label: '错', value: `F` }
     ]
   }
 
   // If CH (Choice), parse options from string
   if (!props.question.options) return []
   return props.question.options.map((opt: any, index: number) => {
-        const label = `${opt.label} ${opt.value}`
+        const label = `${opt.value}`
         const value = opt.label
         
         return { 
@@ -79,6 +79,13 @@ watch(answer, (val) => {
         color="primary"
         class="w-full"
       >
+        <template #label="{ item }">
+          <div class="flex gap-1">
+            <div>{{ item.value }}</div>
+            <MDC :value="item.label" v-if="item.label.includes('![](media') || item.label.includes('\\n')" />
+            <div v-else>{{ item.label }}</div>
+          </div>
+        </template>
       </URadioGroup>
     </div>
 
