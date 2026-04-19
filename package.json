@@ -12,9 +12,14 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.102",
     "@iconify-json/simple-icons": "^1.2.78",
+    "@libsql/client": "^0.17.2",
+    "@nuxt/icon": "2.2.1",
     "@nuxt/ui": "^4.6.1",
     "@nuxthub/core": "0.10.7",
+    "@nuxtjs/mdc": "0.21.1",
     "@pinia/nuxt": "0.11.3",
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2",
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.2.2"
   },
