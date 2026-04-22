@@ -63,8 +63,8 @@ async function copyQuestion(){
       await navigator.clipboard.write([new ClipboardItem({ 'image/png': img })])
       toast.add({ title: '复制成功！在AI应用中粘贴来详细解析', color: 'success' })
     } catch (error) {
-      toast.add({ title: '复制失败！', color: 'error' })
-      console.error(error)
+      toast.add({ title: '复制失败！', color: 'error',  description: `${error}` })
+      console.log('复制失败！', error)
     }
   }else{
     content = `请分析一下这道题的, 正确答案是${q.answer}, 而我选了${q.userAnswer}, 哪里错了?
