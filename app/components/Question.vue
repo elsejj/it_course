@@ -1,6 +1,8 @@
 <script setup lang="ts">
 
 import type { Question } from '@/composables/useQuestions'
+import { snapdom } from '@zumer/snapdom';
+
 
 const props = defineProps<{
   question: Question,
@@ -11,6 +13,7 @@ const toast = useToast()
 
 
 const answer = ref<string>()
+const questionNode = useTemplateRef('questionNode')
 
 const emit = defineEmits<{
   "answer-changed": [qid: number, answer: string]
@@ -48,8 +51,23 @@ watch(answer, (val) => {
 
 async function copyQuestion(){
   const q = props.question
-  const content = `
-请分析一下这道题的, 正确答案是${q.answer}, 而我选了${q.userAnswer}, 哪里错了?
+  const image_tag = '![](media'
+  let content: string
+  if (q.title.includes(image_tag) || parsedOptions.value.find(opt => opt.label.includes(image_tag))){
+    const node = questionNode.value?.$el as HTMLElement
+    const img = await snapdom.toBlob(node, {
+      type: 'png',
+      quality: 0.9,
+    })
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': img })])
+      toast.add({ title: '复制成功！在AI应用中粘贴来详细解析', color: 'success' })
+    } catch (error) {
+      toast.add({ title: '复制失败！', color: 'error' })
+      console.error(error)
+    }
+  }else{
+    content = `请分析一下这道题的, 正确答案是${q.answer}, 而我选了${q.userAnswer}, 哪里错了?
 
 ## 题目
 ${q.title}
@@ -57,12 +75,13 @@ ${q.title}
 ## 选项
 ${parsedOptions.value.map(opt => opt.value + ":" + opt.label).join('\n')}
 
-`
-  try {
-    await navigator.clipboard.writeText(content)
-    toast.add({ title: '复制成功！在AI应用中粘贴来详细解析', color: 'success' })
-  } catch (error) {
-    toast.add({ title: '复制失败！', color: 'error' })
+  `
+    try {
+      await navigator.clipboard.writeText(content)
+      toast.add({ title: '复制成功！在AI应用中粘贴来详细解析', color: 'success' })
+    } catch (error) {
+      toast.add({ title: '复制失败！', color: 'error' })
+    }
   }
   
 }
@@ -77,6 +96,7 @@ ${parsedOptions.value.map(opt => opt.value + ":" + opt.label).join('\n')}
       header: 'bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 border-b border-gray-100 dark:border-gray-800',
       footer: 'bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-800'
     }"
+    ref="questionNode"
   >
     <template #header>
       <div class="flex gap-2 p-1 flex-col">

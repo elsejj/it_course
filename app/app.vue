@@ -14,10 +14,7 @@ useHead({
 
 <template>
   <UApp>
-    <UHeader title="">
-      <div>
-        LYZ的IT通识 (题库: 天津 2025)
-      </div>
+    <UHeader title="LYZ的IT通识 (题库: 天津 2025)">
     </UHeader>
     <UMain>
       <NuxtPage />
