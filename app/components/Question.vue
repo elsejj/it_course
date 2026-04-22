@@ -7,6 +7,7 @@ const props = defineProps<{
   showAnswer?: boolean
 }>()
 
+const toast = useToast()
 
 
 const answer = ref<string>()
@@ -45,7 +46,26 @@ watch(answer, (val) => {
   }
 })
 
+async function copyQuestion(){
+  const q = props.question
+  const content = `
+请分析一下这道题的, 正确答案是${q.answer}, 而我选了${q.userAnswer}, 哪里错了?
 
+## 题目
+${q.title}
+
+## 选项
+${parsedOptions.value.map(opt => opt.value + ":" + opt.label).join('\n')}
+
+`
+  try {
+    await navigator.clipboard.writeText(content)
+    toast.add({ title: '复制成功！在AI应用中粘贴来详细解析', color: 'success' })
+  } catch (error) {
+    toast.add({ title: '复制失败！', color: 'error' })
+  }
+  
+}
 
 </script>
 
@@ -90,9 +110,10 @@ watch(answer, (val) => {
     </div>
 
     <template #footer v-if="showAnswer">
-        <div>
-          <UBadge :label="question.answer === answer ? '正确' : '错误'" :color="question.answer === answer ? 'success' : 'error'" variant="soft" class="mb-4" />
+        <div class="flex gap-4 justify-end items-center">
+          <UBadge :label="question.answer === answer ? '正确' : '错误'" :color="question.answer === answer ? 'success' : 'error'" variant="soft" />
           <pre class="text-gray-900 dark:text-white">正确答案: {{ question.answer }}</pre>
+          <UButton @click="copyQuestion" color="secondary" variant="outline">复制问题去问问AI</UButton>
         </div>
     </template>
 
