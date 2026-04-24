@@ -47,6 +47,15 @@ export const useQuestions = () => {
       return acc
     }, { total: 0, score: 0 })
 
+    try {
+      await $fetch('/api/notify', {
+        method: 'POST',
+        body: { total, score }
+      })
+    } catch (error) {
+      console.log("notify error: ", error)
+    }
+
     return { total, score }
 
   }

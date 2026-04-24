@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.102",
-    "@iconify-json/simple-icons": "^1.2.78",
+    "@iconify-json/simple-icons": "^1.2.79",
     "@libsql/client": "^0.17.2",
     "@nuxt/icon": "2.2.1",
     "@nuxt/ui": "^4.6.1",
@@ -22,10 +22,14 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "nuxt": "^4.4.2",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
-    "typescript": "^6.0.2",
-    "vue-tsc": "^3.2.6"
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.2.7"
+  },
+  "overrides": {
+    "vite": "^8.0.0",
+    "unimport": "^6.1.0"
   }
 }
