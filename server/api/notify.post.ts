@@ -27,27 +27,47 @@ export default defineEventHandler(async (event) => {
 
   const uap = UAParser(ua)
 
-  const text = `**IP**: ${ip}
-**Browser**: ${uap.browser.name} ${uap.browser.type} ${uap.browser.version}
-**OS**: ${uap.os.name} ${uap.os.version}
-**Device**: ${uap.device.vendor} ${uap.device.model} ${uap.device.type}
-**Score**: ${body.score} / ${body.total}
+  const text = `
+**来源**: ${ip}
+**浏览器**: ${uap.browser.name || ''} ${uap.browser.type || ''} ${uap.browser.version || ''}
+**系统**: ${uap.os.name || ''} ${uap.os.version || ''}
+**设备**: ${uap.device.vendor || ''} ${uap.device.model || ''} ${uap.device.type || ''}
+**得分**: ${body.score} / ${body.total}
   `
   const title = "调用统计: LYZ"
 
   const data = {
-    "msg_type": "post",
-    "content": {
-      "post": {
-        "zh_cn": {
-          "title": title,
-          "content": [
-            [{
-              "tag": "text",
-              "text": text
-            }]
-          ]
+    "msg_type": "interactive",
+    "card": {
+      "schema": "2.0",
+      "config": {
+        "update_multi": true,
+        "style": {
+          "text_size": {
+            "normal_v2": {
+              "default": "normal",
+              "pc": "normal",
+              "mobile": "heading"
+            }
+          }
+        },
+      },
+      "header": {
+        "title": {
+          "tag": "plain_text",
+          "content": title
         }
+      },
+      "body": {
+        "elements": [
+          {
+            "tag": "markdown",
+            "content": text,
+            "text_align": "left",
+            "text_size": "normal_v2",
+            "margin": "0px 0px 0px 0px"
+          }
+        ]
       }
     }
   }
