@@ -1,6 +1,8 @@
-
+import { UAParser } from 'ua-parser-js'
 
 const WEBHOOK_URL = process.env.STAT_WEBHOOK_URL || ""
+
+
 
 export default defineEventHandler(async (event) => {
 
@@ -23,10 +25,13 @@ export default defineEventHandler(async (event) => {
   const ip = event.headers.get("x-forwarded-for") || ""
   const ua = event.headers.get("user-agent") || ""
 
-  const text = `IP: ${ip}
-UA: ${ua}
-Score: ${body.score}
-Total: ${body.total}
+  const uap = UAParser(ua)
+
+  const text = `**IP**: ${ip}
+**Browser**: ${uap.browser.name} ${uap.browser.type} ${uap.browser.version}
+**OS**: ${uap.os.name} ${uap.os.version}
+**Device**: ${uap.device.vendor} ${uap.device.model} ${uap.device.type}
+**Score**: ${body.score} / ${body.total}
   `
   const title = "调用统计: LYZ"
 

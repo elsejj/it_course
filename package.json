@@ -22,7 +22,8 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "nuxt": "^4.4.2",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "ua-parser-js": "^2.0.9"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
